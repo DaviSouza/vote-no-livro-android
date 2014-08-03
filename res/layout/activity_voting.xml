@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" 
+    android:gravity="center"
+    
+    >
+
+    <!-- android:src="@drawable/myImage" -->
+
+
+    <!-- <ImageView -->
+    <!-- android:clickable="true" -->
+    <!-- android:onClick="imageClick" > -->
+<!--             android:text="TESTE" -->
+    <!-- </ImageView> -->
+
+    <TextView
+        android:id="@+id/nameBook1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageBook1"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:onClick="toVote" 
+        android:layout_marginTop="15dp"
+        
+        />
+
+    <TextView
+        android:id="@+id/descBook1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:onClick="showDescrpition1"
+
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <TextView
+        android:id="@+id/nameBook2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <ImageView
+        android:id="@+id/imageBook2"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_marginTop="15dp"
+        android:onClick="toVote" />
+
+    <TextView
+        android:id="@+id/descBook2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:clickable="true"
+        android:onClick="showDescrpition2"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
+
+    <!--         style="?android:attr/borderlessButtonStyle" -->
+    <Button
+        android:id="@+id/button1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="@string/label_finalize_voting" />
+
+</LinearLayout>

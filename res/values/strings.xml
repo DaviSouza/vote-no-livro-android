@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">vote-no-livro</string>
+    <string name="action_books_voted">Books Voted</string>
+    <string name="hello_world">Hello world!</string>
+	<string name="action_users">Users</string>
+	<string name="welcome">        
+	    Would you like to participate 
+        of our Book Voting System?
+        If Yes click in "Participate" below 
+    </string>
+	<string name="label_participate">Participate</string>
+	<string name="label_send">Send</string>
+	
+	<string name="label_user_registration">User Registration</string>
+	<string name="label_user_name">User Name</string>
+	<string name="label_user_email">User Email</string>
+	
+	<string name="label_view_voting">Choose the Book</string>	
+	<string name="label_book_description">See description of </string>
+	<string name="label_close">Close</string>
+	
+	<string name="label_finalize_voting">Finalize voting</string>
+	<string name="label_percent_symbol">%</string>
+	<string name="label_book">Book</string>
+	<string name="label_ranking">Ranking</string>	
+	
+</resources>
