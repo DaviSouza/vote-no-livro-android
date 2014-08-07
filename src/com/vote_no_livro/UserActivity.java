@@ -39,7 +39,7 @@ public class UserActivity extends Activity {
 						+ "SEP"
 						+ (String) getIntent()
 								.getSerializableExtra("listVoted");
-				HTTPUtils.POST("http://10.0.2.2:8080/votows/finalizar", json);
+				HTTPUtils.POST("http://voting-dsouza7.rhcloud.com/votows/finalizar", json);
 			}
 		} catch (Exception e) {
 			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,e);

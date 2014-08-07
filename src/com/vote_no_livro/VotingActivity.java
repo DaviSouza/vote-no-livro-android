@@ -26,7 +26,7 @@ public class VotingActivity extends Activity {
 
 	private List<Livro> listBook;
 	private List<Integer> listVoted = new ArrayList<Integer>();
-	private final String URI = "http://10.0.2.2:8080/TesteVelo2/img/";
+	private final String URI = "http://voting-dsouza7.rhcloud.com/img/";
 	private TextView textView1 = (TextView) findViewById(R.id.nameBook1);
 	private TextView textView2 = (TextView) findViewById(R.id.nameBook2);
 	private TextView descBook1 = (TextView) findViewById(R.id.descBook1);
@@ -40,7 +40,7 @@ public class VotingActivity extends Activity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_voting);
 
-		String json = HTTPUtils.GET("http://10.0.2.2:8080/votows/todosLivros");
+		String json = HTTPUtils.GET("http://voting-dsouza7.rhcloud.com/votows/todosLivros");
 		listBook = new JSONDeserializer<List<Livro>>().deserialize(json);
 		Collections.shuffle(listBook);
 		fillFieldsView();

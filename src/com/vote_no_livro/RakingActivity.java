@@ -15,7 +15,7 @@ import android.widget.TextView;
 
 public class RakingActivity extends Activity {
 	
-	private final String URL = "http://10.0.2.2:8080/votows/";
+	private final String URL = "http://voting-dsouza7.rhcloud.com/votows/";
 	private List<Object[]> list;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
