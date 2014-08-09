@@ -3,8 +3,11 @@ package com.vote_no_livro;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
-import com.vote_no_livro.model.Livro;
+import votows.model.Livro;
+
 import com.vote_no_livro.utils.HTTPUtils;
 import com.vote_no_livro.utils.Tools;
 
@@ -17,6 +20,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -26,44 +30,102 @@ public class VotingActivity extends Activity {
 
 	private List<Livro> listBook;
 	private List<Integer> listVoted = new ArrayList<Integer>();
-	private final String URI = "http://voting-dsouza7.rhcloud.com/img/";
-	private TextView textView1 = (TextView) findViewById(R.id.nameBook1);
-	private TextView textView2 = (TextView) findViewById(R.id.nameBook2);
-	private TextView descBook1 = (TextView) findViewById(R.id.descBook1);
-	private TextView descBook2 = (TextView) findViewById(R.id.descBook2);
-	private ImageView imageBook1 = (ImageView) findViewById(R.id.imageBook1);
-	private ImageView imageBook2 = (ImageView) findViewById(R.id.imageBook2);
-	private Bitmap bmp;
+	private final String URI = "http://voting-dsouza7.rhcloud.com/img/"; // http://voting-dsouza7.rhcloud.com/
+	private TextView textView1;
+	private TextView textView2;
+	private TextView descBook1;
+	private TextView descBook2;
+	private ImageView imageBook1;
+	private ImageView imageBook2;
+	private Bitmap bmp, bmp2;
+
+	private Integer total;// "http://10.0.2.2:8080/votows/"
+	private String json;
+	private Connection connection;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_voting);
+		try {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_voting);
+			setComponents();
+		} catch (Exception e) {
+			Logger.getLogger(VotingActivity.class.getName()).log(Level.SEVERE,
+					null, e);
+		}
+	}
 
-		String json = HTTPUtils.GET("http://voting-dsouza7.rhcloud.com/votows/todosLivros");
-		listBook = new JSONDeserializer<List<Livro>>().deserialize(json);
-		Collections.shuffle(listBook);
-		fillFieldsView();
+	private void setComponents() {
+		textView1 = (TextView) findViewById(R.id.nameBook1);
+		textView2 = (TextView) findViewById(R.id.nameBook2);
+		descBook1 = (TextView) findViewById(R.id.descBook1);
+		descBook2 = (TextView) findViewById(R.id.descBook2);
+		imageBook1 = (ImageView) findViewById(R.id.imageBook1);
+		imageBook2 = (ImageView) findViewById(R.id.imageBook2);
+	}
+
+	@Override
+	protected void onStart() {
+		connection = new Connection();
+		connection.execute();
+		super.onStart();
+	}
+
+	private class Connection extends AsyncTask<Object, Object, Object> {
+
+		@Override
+		protected Object doInBackground(Object... arg0) {
+
+			String URL = "http://voting-dsouza7.rhcloud.com/votows/";
+			json = HTTPUtils.GET(URL + "todosLivros");
+			String totalVotados = HTTPUtils.GET(URL + "totalVotados");
+			total = Integer.valueOf(totalVotados);// http://voting-dsouza7.rhcloud.com/
+
+			listBook = new JSONDeserializer<List<Livro>>().deserialize(json);
+			Collections.shuffle(listBook);
+			bmp = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
+					+ listBook.get(0).getNlLivro()));
+			bmp2 = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
+					+ listBook.get(1).getNlLivro()));
+			
+			connection.cancel(true);
+			return null;
+		}
+
+		@Override
+		protected void onCancelled() {
+			// TODO Auto-generated method stub
+			fillFieldsView();
+			super.onCancelled();
+		}
+
+//		@Override
+//		protected void onPreExecute() {
+//			// TODO Auto-generated method stub
+//			super.onPreExecute();
+//			
+//		}
+
+//		connection.cancel(true);
+//		fillFieldsView();
 	}
 
 	public void fillFieldsView() {
 		textView1.setText(listBook.get(0).getNmLivro());
 		textView2.setText(listBook.get(1).getNmLivro());
 
-		bmp = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
-				+ listBook.get(0).getNlLivro()));
 		imageBook1.setImageBitmap(bmp);
 		imageBook1.setTag(listBook.get(0));
 
-		bmp = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
-				+ listBook.get(1).getNlLivro()));
-		imageBook2.setImageBitmap(bmp);
+		imageBook2.setImageBitmap(bmp2);
 		imageBook2.setTag(listBook.get(1));
 
-		descBook1.setText(R.string.label_book_description + " "
-				+ listBook.get(0).getNmLivro());
-		descBook2.setText(R.string.label_book_description + " "
-				+ listBook.get(1).getNmLivro());
+		descBook1.setText(getResources().getString(
+				R.string.label_book_description)
+				+ " " + listBook.get(0).getNmLivro());
+		descBook2.setText(getResources().getString(
+				R.string.label_book_description)
+				+ " " + listBook.get(1).getNmLivro());
 	}
 
 	public void showDescrpition1(View v) {
@@ -77,7 +139,9 @@ public class VotingActivity extends Activity {
 	}
 
 	public void buildDialogDescr(String name, String text) {
+		AlertDialog description;
 		AlertDialog.Builder builder = new AlertDialog.Builder(this);
+		
 		builder.setMessage(text).setTitle(name);
 		builder.setPositiveButton(R.string.label_close,
 				new DialogInterface.OnClickListener() {
@@ -87,6 +151,9 @@ public class VotingActivity extends Activity {
 						dialog.dismiss();
 					}
 				});
+		
+		description = builder.create();
+		description.show();
 	}
 
 	public void toVote(View v) {

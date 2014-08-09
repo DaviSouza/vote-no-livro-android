@@ -1,4 +1,4 @@
-package com.vote_no_livro.model;
+package votows.model;
 
 public class Livro {
 

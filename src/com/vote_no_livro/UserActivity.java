@@ -3,7 +3,8 @@ package com.vote_no_livro;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.vote_no_livro.model.Usuar;
+import votows.model.Usuar;
+
 import com.vote_no_livro.utils.HTTPUtils;
 import com.vote_no_livro.utils.Tools;
 

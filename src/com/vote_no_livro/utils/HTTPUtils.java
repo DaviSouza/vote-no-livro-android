@@ -9,11 +9,14 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.apache.http.HttpResponse;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
+
+import android.util.Log;
 
 public class HTTPUtils {
 
@@ -30,7 +33,8 @@ public class HTTPUtils {
 			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,
 					ex);
 		} catch (IOException ex) {
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,ex);
+			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,
+					ex);
 		}
 	}
 
@@ -47,7 +51,8 @@ public class HTTPUtils {
 			}
 
 		} catch (Exception e) {
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,e);
+			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,
+					e);
 		}
 
 		return result;
@@ -70,18 +75,26 @@ public class HTTPUtils {
 		try {
 			// create HttpClient
 			HttpClient httpclient = new DefaultHttpClient();
-	        httpclient.getParams().setIntParameter("http.socket.timeout", 10000);
-	        //httpclient.getParams().setParameter("User-Agente", "Leo");
-	        httpclient.getParams().setIntParameter("http.connection.timeout", 4000);
+			// httpclient.getParams().setIntParameter("http.socket.timeout",10000);
+			// httpclient.getParams().setParameter("User-Agente", "Leo");
+			// httpclient.getParams().setIntParameter("http.connection.timeout",4000);
 			// make GET request to the given URL
-	        HttpGet httpGet = new HttpGet(url);
+			HttpGet httpGet = new HttpGet(url);
 			HttpResponse httpResponse = httpclient.execute(httpGet);
 			// receive response as inputStream
 			return httpResponse.getEntity().getContent();
-		} catch (Exception e) {
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,e);
-			return null;
+			// } catch (Exception e) {
+			// Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE,
+			// null,e);
+			// return null;
+			// }
+
+		} catch (ClientProtocolException e) {
+			Log.d("HTTPCLIENT", e.getLocalizedMessage());
+		} catch (IOException e) {
+			Log.d("HTTPCLIENT", e.getLocalizedMessage());
 		}
+		return null;
 	}
 
 }

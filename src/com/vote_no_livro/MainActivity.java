@@ -1,5 +1,8 @@
 package com.vote_no_livro;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
@@ -8,11 +11,18 @@ import android.view.MenuItem;
 import android.view.View;
 
 public class MainActivity extends Activity {
+//	private TextView textView1;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		setContentView(R.layout.activity_main);
+		try {
+			super.onCreate(savedInstanceState);
+			setContentView(R.layout.activity_main);
+//			textView1 = (TextView) findViewById(R.id.textView1);
+//			textView1.setText(HTTPUtils.GET("http://10.0.2.2:8080/votows/totalVotados"));//http://voting-dsouza7.rhcloud.com/
+		} catch (Exception e) {
+			Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE,null, e);
+		}
 	}
 
 	@Override
@@ -37,15 +47,20 @@ public class MainActivity extends Activity {
 		case R.id.menu_voting:
 			it = new Intent(this, VotingActivity.class);
 			startActivity(it);
-			return true;	
-		
+			return true;
+
 		}
 		return false;
 	}
 
 	public void participate(View v) {
-		Intent it = new Intent(this, VotingActivity.class);
-		startActivity(it);
+		try {
+			Intent it = new Intent(this, VotingActivity.class);
+			startActivity(it);
+		} catch (Exception e) {
+			Logger.getLogger(MainActivity.class.getName()).log(Level.SEVERE,
+					null, e);
+		}
 	}
 
 }
