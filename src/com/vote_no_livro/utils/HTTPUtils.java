@@ -30,11 +30,9 @@ public class HTTPUtils {
 			postRequest.setEntity(input);
 			httpClient.execute(postRequest);
 		} catch (UnsupportedEncodingException ex) {
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,
-					ex);
+			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,ex);
 		} catch (IOException ex) {
-			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,
-					ex);
+			Logger.getLogger(HTTPUtils.class.getName()).log(Level.SEVERE, null,ex);
 		}
 	}
 

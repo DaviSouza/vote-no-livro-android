@@ -75,20 +75,24 @@ public class VotingActivity extends Activity {
 
 		@Override
 		protected Object doInBackground(Object... arg0) {
+			
+			if (arg0.length == 0) {
+				String URL = "http://voting-dsouza7.rhcloud.com/votows/";
+				json = HTTPUtils.GET(URL + "todosLivros");
+				String totalVotados = HTTPUtils.GET(URL + "totalVotados");
+				total = Integer.valueOf(totalVotados);// http://voting-dsouza7.rhcloud.com/
 
-			String URL = "http://voting-dsouza7.rhcloud.com/votows/";
-			json = HTTPUtils.GET(URL + "todosLivros");
-			String totalVotados = HTTPUtils.GET(URL + "totalVotados");
-			total = Integer.valueOf(totalVotados);// http://voting-dsouza7.rhcloud.com/
-
-			listBook = new JSONDeserializer<List<Livro>>().deserialize(json);
-			Collections.shuffle(listBook);
+				listBook = new JSONDeserializer<List<Livro>>()
+						.deserialize(json);
+				Collections.shuffle(listBook);
+			}
 			bmp = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
 					+ listBook.get(0).getNlLivro()));
 			bmp2 = BitmapFactory.decodeStream(HTTPUtils.getInputStream(URI
 					+ listBook.get(1).getNlLivro()));
 			
 			connection.cancel(true);
+			
 			return null;
 		}
 
@@ -96,7 +100,12 @@ public class VotingActivity extends Activity {
 		protected void onCancelled() {
 			// TODO Auto-generated method stub
 			fillFieldsView();
-			super.onCancelled();
+			try {
+				connection.finalize();
+			} catch (Throwable e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 
 //		@Override
@@ -176,6 +185,10 @@ public class VotingActivity extends Activity {
 		if (listBook.size() == 1) {
 			finalizeVote(v);
 		}
+		connection = new Connection();
+		connection.execute(1);
+		//fillFieldsView();
+		
 	}
 
 	public void finalizeVote(View v) {
